@@ -1,0 +1,93 @@
+class Solution {
+public:
+
+ vector<vector<bool>>vist;
+ int m; 
+ int n;
+ int remaing =0;
+
+
+
+ bool cango(vector<vector<int>>& grid , int sr ,int sc)
+ {
+    return (sr>=0&&sc>=0&&sr<grid.size()&&sc<grid[0].size() && grid[sr][sc]!=-1 &&!vist[sr][sc] );
+ }
+
+  int f(vector<vector<int>>& grid , int sr ,int sc, int er , int ec ,int remaing)
+  {
+        
+
+        if(sr==er&& sc==ec )
+        {
+            if(remaing ==1) return 1;
+            return 0;
+        }
+        vist[sr][sc]=true;
+        int count =0;
+
+        // down
+
+        if(cango(grid , sr+1,sc)){
+            count+=f(grid , sr+1 , sc , er, ec, remaing-1);
+           
+        }
+
+        //up
+
+          if(cango(grid , sr-1,sc)){
+          count+= f(grid , sr-1 , sc,er,ec, remaing-1);
+            
+        }
+
+        //right
+          if(cango(grid , sr,sc+1)){
+          count+= f(grid , sr , sc+1,er,ec , remaing-1);
+           
+        }
+
+        //left
+
+          if(cango(grid , sr,sc-1)){
+          count+=  f(grid , sr , sc-1,er,ec, remaing-1);
+           
+        }
+        vist[sr][sc]=false;
+        return count;
+
+
+  }
+
+    int uniquePathsIII(vector<vector<int>>& grid) {
+        m=grid.size();
+        n= grid[0].size();
+
+        vist.resize(m , vector<bool>(n, false));
+        int sr , sc, er ,ec ;
+        
+      
+
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]==1) 
+                {
+                    sr=i;
+                    sc=j;
+                    
+                }
+                if(grid[i][j]!=-1) remaing++; 
+                 if(grid[i][j]==2)
+                 { 
+                    er=i;
+                    ec=j;
+
+                 }
+            }
+        }
+
+
+
+        return f(grid , sr, sc , er , ec , remaing);
+    }
+};
