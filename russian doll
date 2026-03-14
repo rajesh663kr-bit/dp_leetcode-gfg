@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        
+        int n = envelopes.size();
+        if(n == 0) return 0;
+        
+        // Step 1: Sort
+        sort(envelopes.begin(), envelopes.end(), [](vector<int>& a, vector<int>& b){
+            
+            if(a[0] == b[0])
+                return a[1] > b[1];   // height descending
+            
+            return a[0] < b[0];       // width ascending
+        });
+        
+        // Step 2: Apply LIS on heights
+        vector<int> tail;
+        
+        for(int i = 0; i < n; i++) {
+            
+            int height = envelopes[i][1];
+            
+            if(tail.size() == 0 || height > tail.back()) {
+                tail.push_back(height);
+            }
+            else {
+                int idx = lower_bound(tail.begin(), tail.end(), height) - tail.begin();
+                tail[idx] = height;
+            }
+        }
+        
+        return tail.size();
+    }
+};
