@@ -1,0 +1,19 @@
+class Solution {
+public:
+vector<long long>dp;
+long long f(vector<vector<int>>& grid , int i , int n)
+{
+    if(i>=n) return 0;
+    if(dp[i]!=-1) return dp[i];
+    long long take = grid[i][0]+f(grid , i+grid[i][1]+1 , n);
+    long long skip= f(grid , i+1 , n);
+
+    return dp[i]= max(skip , take);
+
+}
+    long long mostPoints(vector<vector<int>>& questions) {
+        int n= questions.size();
+        dp.resize(n+1 , -1);
+        return f(questions , 0 , n);
+    }
+};
