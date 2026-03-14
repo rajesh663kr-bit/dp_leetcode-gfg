@@ -1,0 +1,38 @@
+class Solution {
+public:
+vector<int>dp;
+int mx(vector<int>& arr, int i , int j)
+{
+    int maxi=INT_MIN;
+    for(int z=i;z<=j;z++)
+    {
+        if(arr[z]>maxi)
+        {
+            maxi=arr[z];
+        }
+    }
+    return maxi;
+}
+
+int f(vector<int>& arr, int k , int i , int j)
+{
+    if(i>j) return 0;
+    if(i==j) return arr[i];
+    if(dp[i]!=-1) return dp[i];
+    int ans=0;
+    int maxi=0;
+    for(int z=i ; z<=j&&z<i+k;z++)
+    {
+        maxi=max(maxi , arr[z]);
+        int len=z-i+1;
+       ans=max( ans, maxi*len+f(arr , k , z+1 , j));
+    }
+
+    return dp[i]= ans;
+}
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+         int n= arr.size();
+         dp.resize(n+1 , -1);
+         return f(arr , k , 0 , n-1);
+    }
+};
