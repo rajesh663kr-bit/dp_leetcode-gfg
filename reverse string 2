@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+void Reverse(string& s , int i ,int j )
+{
+    while(i<j){
+
+        char temp= s[i];
+        s[i]=s[j];
+        s[j]= temp;
+        i++;
+        j--;
+
+     }
+}
+
+ void f(string& s, int k, int n) {
+        for (int i = 0; i < n; i = i + 2 * k) {
+
+            // if remaining characters are less than k
+            if (n - i < k) {
+                Reverse(s, i, n - 1);
+            }
+            else {
+                Reverse(s, i, i + k - 1);
+            }
+        }
+    }
+    string reverseStr(string s, int k) {
+         int n= s.size();
+        
+         
+         if(n<k)
+         {
+          reverse(s.begin() , s.end());
+          return s;
+
+
+        }   
+         f(s ,k ,n);
+         return s;
+    }
+};
