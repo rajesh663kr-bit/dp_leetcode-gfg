@@ -1,0 +1,39 @@
+class Solution {
+public:
+vector<vector<int>>dp;
+int f(vector<int>&v ,int n , int i)
+{   
+    if(n==0) return 0;
+    if (i == v.size()) return INT_MAX;
+    if(dp[i][n]!=-1) return dp[i][n];
+    
+
+   
+
+     int nottake= f(v , n , i+1);
+     int take=INT_MAX;
+    if(n>=v[i])
+    {
+        int sub = f(v, n - v[i], i);
+        if (sub != INT_MAX)
+            take = 1 + sub;
+
+    }
+
+    return dp[i][n]= min(take , nottake);
+  
+
+
+}
+    int numSquares(int n) {
+     vector<int> squares;
+
+    for (int i = 1; i * i <= n; i++) {
+        squares.push_back(i * i);
+    }
+
+    dp.resize(squares.size()+1 , vector<int>(n+1 ,-1));
+
+        return f(squares,n,0);
+    }
+};
