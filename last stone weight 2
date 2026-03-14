@@ -1,0 +1,32 @@
+class Solution {
+public:
+vector<vector<int>>dp;
+
+int f(vector<int>& stones, int target , int i)
+{
+    if(i==stones.size() || target==0) return 0;
+    if(dp[i][target]!=-1) return dp[i][target];
+   int nottaken =f(stones , target , i+1);
+   
+   int take=0;
+   if(target>=stones[i])
+   {
+    take= stones[i]+f(stones , target-stones[i], i+1);
+   }
+
+   return dp[i][target]= max(take , nottaken );
+}
+    int lastStoneWeightII(vector<int>& stones) {
+        int n=stones.size();
+
+        int sum=0;
+        for(auto ele:stones) sum+=ele;
+
+        int target = sum/2;
+        dp.resize(n+1 , vector<int>(target+1 , -1));
+
+        int helper= f(stones , target , 0);
+
+        return sum-2*helper;
+    }
+};
