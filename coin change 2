@@ -1,0 +1,23 @@
+class Solution {
+public:
+vector<vector<int>>dp;
+int f(int amount, vector<int>& coins , int i)
+{
+    if(amount==0) return 1;
+    if(i==coins.size()) return 0;
+   if(dp[i][amount]!=-1) return dp[i][amount];
+
+    int ways=0;
+    ways=f(amount , coins , i+1);
+    if(coins[i]<=amount)
+    {
+        ways+=f(amount-coins[i] , coins , i);
+    }
+    return dp[i][amount]= ways;
+}
+    int change(int amount, vector<int>& coins) {
+        int n= coins.size();
+        dp.resize(n+1 , vector<int>(amount+1 , -1));
+        return f(amount , coins , 0);
+    }
+};
