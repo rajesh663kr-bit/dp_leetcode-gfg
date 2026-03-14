@@ -1,0 +1,55 @@
+class Solution {
+public:
+
+unordered_set<string>st;
+
+int n;
+unordered_map<int, vector<string>> memo;
+vector<string> helper(string& s , int start )
+{
+  vector<string>result;
+    if(memo.count(start))
+    {
+        return memo[start];
+    }
+    if(start==n)
+    {
+        // base case
+        result.push_back("");
+        return memo[start]=result;
+    }
+ 
+   for(int end= start;end<n;end++)
+   {
+    string word= s.substr(start, end-start+1);
+    if(st.count(word)){
+        vector<string> sub= helper(s, end+1);
+
+        for(auto & sentence:sub)
+        {
+            if(sentence=="")
+            {
+                result.push_back(word);
+            }
+            else{
+                result.push_back(word+" "+sentence);
+            }
+        }
+    }
+    
+   }
+   return  memo[start]=result;
+}
+
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        for(auto word:wordDict)
+        {
+            st.insert(word);
+        }
+        
+         n = s.size();
+        return  helper(s, 0 );
+
+
+    }
+};
