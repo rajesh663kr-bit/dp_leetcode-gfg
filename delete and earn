@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+vector<int>dp;
+
+ int helper(vector<int>&arr, int i)
+    {
+        if(i==arr.size()-1) return arr[i];
+        if(i==arr.size()-2) return max(arr[i], arr[i+1]);
+        if(dp[i]!=-1)  return dp[i];
+        return dp[i]= max(arr[i]+helper(arr ,i+2 ) ,  0+helper(arr ,i+1));
+    }
+
+
+    int deleteAndEarn(vector<int>& nums) {
+        int n= nums.size();
+
+      
+        
+        int maxele= INT_MIN;
+        for(auto ele:nums)
+        {
+            if(ele>maxele) maxele=ele;
+        }
+        vector<int>v(maxele+1,0);
+          dp.resize(maxele+1 ,-1 );
+
+        for(int i=0;i<n;i++)
+        {
+            v[nums[i]]= v[nums[i]]+nums[i];
+            
+        }
+
+       return  helper(v , 0 );
+    }
+};
