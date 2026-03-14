@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& grid) {
+
+        int n= grid.size();
+        vector<vector<int>>dp(n , vector<int>(n ,-1));
+
+        for(int i=0 ;i<n;i++)
+        {
+            dp[n-1][i]=grid[n-1][i];
+        }
+
+
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int j= n-1;j>=0;j--)
+            {
+                int down = dp[i+1][j];
+                int rightdiog = INT_MAX;
+                if(j<n-1)   rightdiog= dp[i+1][j+1];
+                int leftdiog = INT_MAX;
+                if(j>=1)  leftdiog = dp[i+1][j-1];
+
+                dp[i][j]=grid[i][j]+min(down , min(rightdiog , leftdiog));
+               
+
+            }
+        }
+
+        int ans=INT_MAX;
+        for(int i=0;i<n;i++)
+        {
+            ans= min(ans , dp[0][i]);
+        }
+
+        return ans;
+    }
+};
