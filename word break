@@ -1,0 +1,22 @@
+class Solution {
+public:
+    unordered_map<string, bool> memo;
+
+    bool solve(string s, vector<string>& wordDict) {
+        if (s.size() == 0) return true;
+        if (memo.count(s)) return memo[s];
+
+        for (string word : wordDict) {
+            int len = word.length();
+            if (s.size() >= len && s.substr(0, len) == word) {
+                if (solve(s.substr(len), wordDict))
+                    return memo[s] = true;
+            }
+        }
+        return memo[s] = false;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        return solve(s, wordDict);
+    }
+};
