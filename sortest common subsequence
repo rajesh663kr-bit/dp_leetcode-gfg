@@ -1,0 +1,63 @@
+class Solution {
+public:
+    string shortestCommonSupersequence(string s1, string s2) {
+
+        int n1 = s1.size();
+        int n2 = s2.size();
+        vector<vector<int>> dp(n1+1, vector<int>(n2+1, 0));
+
+        // LCS DP
+        for (int i = 1; i <= n1; i++) {
+            for (int j = 1; j <= n2; j++) {
+                if (s1[i-1] == s2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+
+        // Reconstruct LCS
+        string lcs = "";
+        int p = n1, q = n2;
+        while (p > 0 && q > 0) {
+            if (s1[p-1] == s2[q-1]) {
+                lcs.push_back(s1[p-1]);
+                p--; q--;
+            } else if (dp[p-1][q] > dp[p][q-1]) {
+                p--;
+            } else {
+                q--;
+            }
+        }
+        reverse(lcs.begin(), lcs.end());
+
+        // Build SCS
+        int i = 0, j = 0, k = 0;
+        string str = "";
+
+        while (i < n1 && j < n2 && k < lcs.size()) {
+            while (s1[i] != lcs[k]) {
+                str.push_back(s1[i]);
+                i++;
+            }
+            while (s2[j] != lcs[k]) {
+                str.push_back(s2[j]);
+                j++;
+            }
+            str.push_back(lcs[k]);
+            i++; j++; k++;
+        }
+
+       
+        while (i < n1) {
+            str.push_back(s1[i]);
+            i++;
+        }
+        while (j < n2) {
+            str.push_back(s2[j]);
+            j++;
+        }
+
+        return str;
+    }
+};
