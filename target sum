@@ -1,0 +1,29 @@
+class Solution {
+public:
+vector<vector<int>>dp;
+int sum;
+
+int f(vector<int>& nums, int target, int i)
+{
+    int n=nums.size();
+    if (target < -sum || target > sum) return 0;
+    if(i==n) return (target==0);
+    if(dp[i][target+sum]!=-1) return dp[i][target+sum];
+
+    int ans=0;
+    ans += f(nums , target-nums[i] , i+1);
+    ans += f(nums , target+nums[i] , i+1);
+
+    return  dp[i][target+sum]=ans;
+}
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n=nums.size();
+         sum=0;
+        for(auto ele:nums) sum+=ele;
+
+        dp.resize(n+1 , vector<int>(2*sum+1 , -1));
+
+        return f(nums , target , 0);
+
+    }
+};
