@@ -1,0 +1,27 @@
+class Solution {
+public: 
+
+void PrintSUset(vector<int>&arr,int n,int idx,vector<int>curr, vector<vector<int>>&res)
+{
+    if(idx==n)
+    { 
+        res.push_back(curr);
+        
+        return;
+    
+    }
+    PrintSUset(arr,n,idx+1,curr, res);
+    curr.push_back(arr[idx]);
+    PrintSUset(arr,n,idx+1,curr , res);
+    curr.pop_back();
+    
+}
+    vector<vector<int>> subsets(vector<int>& nums) {
+       int n= nums.size();
+       vector<int>curr;
+       vector<vector<int>>res;
+       PrintSUset(nums,n,0,curr,res);
+       return res;
+
+    }
+};
