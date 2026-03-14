@@ -1,0 +1,27 @@
+class Solution {
+public:
+
+
+int f(vector<int>& slices , int i ,int li, int n ,vector<vector<int>>& dp)
+{
+
+    if(i>li|| n==0) return 0;
+    
+  
+    if(dp[i][n]!=-1) return dp[i][n];
+
+
+    return dp[i][n]= max(slices[i]+f(slices , i+2 , li, n-1 ,dp) , 0+f(slices , i+1 , li,n , dp));
+
+
+}
+    int maxSizeSlices(vector<int>& slices) {
+        int n= slices.size();
+        int k=n/3;
+       vector<vector<int>>dp2(n+1 , vector<int>(k+1,-1));
+        vector<vector<int>>dp1(n+1 , vector<int>(k+1,-1));
+       int case1 = f(slices , 0 ,n-2, k , dp1);
+       int case2 = f(slices , 1 ,n-1, k ,dp2);
+        return max(case1 , case2);
+    }
+};
