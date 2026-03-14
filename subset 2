@@ -1,0 +1,41 @@
+class Solution {
+public:
+
+void PrintSUset(vector<int>& nums,int n,int idx,vector<int>&curr , vector<vector<int>>&res ,  vector<bool>& used)
+{
+    if(idx==n)
+    {
+       res.push_back(curr);
+       return;
+    
+    }
+     PrintSUset(nums,n,idx+1,curr, res,used);
+
+     if (!(idx > 0 && nums[idx] == nums[idx - 1] && !used[idx - 1]))
+    {
+       
+      curr.push_back(nums[idx]);
+      used[idx]= true;
+     PrintSUset(nums,n,idx+1,curr,res, used);
+      curr.pop_back();
+      used[idx]=false;
+    
+    }
+    
+   
+   
+   
+
+}
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+       vector<int>curr;
+       vector<vector<int>>res;
+       
+       int n= nums.size();
+       vector<bool>used(n,false);
+       PrintSUset(nums, n,0,curr, res, used);
+       return res;
+
+    }
+};
